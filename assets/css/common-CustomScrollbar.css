@@ -1,0 +1,51 @@
+@charset "UTF-8";
+
+@media (hover: hover) and (pointer: fine) {
+	.js-CustomScrollbar {
+		scrollbar-width: none;
+		-ms-overflow-style: none;
+	}
+	.js-CustomScrollbar::-webkit-scrollbar {
+		display: none;
+	}
+	.comScrollbar {
+		--comScrollbar-PosiR: 0;
+		--comScrollbar-W: 5px;
+		--comScrollbarThum-W: 100%;
+		--comScrollbar-BG: #25262c;
+		position: absolute;
+		border-radius: var(--comScrollbar-W);
+		background: var(--comScrollbar-BG);
+		z-index: 10;
+	}
+	.comScrollbar:not(.is-x) {
+		right: var(--comScrollbar-PosiR);
+		width: var(--comScrollbar-W);
+	}
+	.comScrollbar.is-x {
+		bottom: 0;
+		width: auto;
+		height: var(--comScrollbar-W);
+	}
+	.comScrollbar-Thumb {
+		--comScrollbarThumb-BG: #a3a4a6;
+		position: absolute;
+		left: calc((100% - var(--comScrollbarThum-W)) / 2);
+		width: var(--comScrollbarThum-W);
+		min-height: 20px;
+		background: var(--comScrollbarThumb-BG);
+		border-radius: var(--comScrollbar-W);
+		cursor: grab;
+		transition: background 0.3s;
+	}
+	.comScrollbar-Thumb:hover {
+		background: rgba(163, 164, 166, 0.8);
+	}
+	.comScrollbar.is-x .comScrollbar-Thumb {
+		top: 0;
+		width: auto;
+		height: 100%;
+		min-height: unset;
+		min-width: 20px;
+	}
+}

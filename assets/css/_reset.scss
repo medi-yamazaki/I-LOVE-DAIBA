@@ -69,6 +69,7 @@ a {
 	color: inherit;
 	cursor: pointer;
 	text-decoration: none;
+	-webkit-tap-highlight-color: transparent; // 透明にして消す
 }
 
 a:active,
