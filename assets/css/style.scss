@@ -1,7 +1,5 @@
 @charset "utf-8";
 @use "reset";
-$font-Rounded1c: "M PLUS Rounded 1c", sans-serif;
-$font-Interfamily: "Inter", sans-serif;
 $font-Aleo: "Aleo", serif;
 
 @mixin ComModalBGColor() {
@@ -31,18 +29,19 @@ body {
 	--BaseBlue: #9ad7f9;
 	--ComContentPaddingLR: calc(16 * var(--BaseUnit));
 	position: relative;
-	font-weight: 400;
+	font-weight: 500;
 	font-optical-sizing: auto;
 	vertical-align: baseline;
 	line-height: 1.5;
 	-webkit-text-size-adjust: 100%;
 	overflow-x: hidden;
-	font-family: "M PLUS Rounded 1c", "Inter", sans-serif;
+	font-family: "Zen Maru Gothic", sans-serif;
 
 	@media screen and (min-width: 768px) {
 		--vw1px: 0.06944444444444445vw;// 1440pxで算出
-		--header-H: 118px;
-		--ComWave-H: 14px;
+		--header-H: 119px;
+		--ComWave-W: 60px;
+		--ComWave-H: 16px;
 		--BaseWaveBGSize: 3594px;
 		font-size: 16px;
 		.spOnly {
@@ -53,7 +52,8 @@ body {
 		--vw1px: 0.2564102564102564vw;// 390pxで算出
 		--header-H: calc(72 * var(--BaseUnit));
 		--BaseWaveBGSize: 2330;
-		--ComWave-H: 9;
+		--ComWave-W: 40;
+		--ComWave-H: 10;
 		font-size: 14px;
 		.pcOnly {
 			display: none;
@@ -127,7 +127,7 @@ body {
 	--ComH2-FontC: var(--BaseRed);
 	color: var(--ComH2-FontC);
 	background: var(--ComH2-BGURL) no-repeat center bottom / auto var(--ComH2Deco-H);
-	font-weight: 800;
+	font-weight: bold;
 	font-family: $font-Aleo;
 	display: flex;
 	justify-content: center;
@@ -197,7 +197,8 @@ body {
 // ====== Header
 // =========================================================================
 header {
-	background: url(../images/Wave-HeaderBG.svg) repeat-x center bottom / auto var(--header-H);
+	background: url(../images/Wave-HeaderBG.svg) repeat-x center bottom ;
+	background-size: var(--header-W) var(--header-H);
 	animation: bgScrollX 35s linear infinite;
 	position: fixed;
 	top: 0;
@@ -310,7 +311,6 @@ header {
 			background: url(../images/Wave-DecoW.svg) no-repeat center bottom / auto var(--deco-H);
 			color: #fff;
 			font-family: $font-Aleo;
-			font-size: 28px;
 			font-weight: 800;
 			line-height: 1;
 			display: flex;
@@ -329,6 +329,7 @@ header {
 	}
 
 	@media screen and (min-width: 768px) {
+		--header-W: 1797px;
 		padding: 0 24px 14px;
 		.hedaerContainer {
 			justify-content: space-between;
@@ -367,9 +368,13 @@ header {
 			&::after {
 				background: url(../images/Wave-NaviPCBG.svg) repeat-x left center / auto var(--BaseWaveBGSize);
 			}
+			a {
+				font-size: 28px;
+			}
 		}
 	}
 	@media screen and (max-width: 767px) {
+		--header-W: calc(1087 * var(--BaseUnit));
 		padding-bottom: calc(11 * var(--BaseUnit));
 		.hedaerContainer {
 			justify-content: center;
@@ -408,6 +413,9 @@ header {
 				background: url(../images/Wave-FooterBG.svg) repeat-x center top / 2300px auto;
 				transform: rotate(180deg);
 			}
+			a {
+				font-size: 24px;
+			}
 		}
 
 	}
@@ -422,15 +430,43 @@ header {
 	align-items: center;
 	padding: calc(var(--header-H) + var(--KV-PTB)) var(--ComContentPaddingLR) var(--KV-PTB);
 	min-height: calc(100dvh - (var(--ComWave-H) * 2 * var(--BaseUnit)));
+	position: relative;
+	z-index: 3;
+	overflow: visible;
+
+	&::after {
+		content: "";
+		background: url(../images/Wave-WhiteBGDown.svg) repeat-x center bottom;
+		background-size: var(--Deco-W) var(--Deco-H);
+		animation: bgScrollX 35s linear infinite;
+		position: absolute;
+		bottom: var(--KVWave-PosiB);
+		left: 0;
+		right: 0;
+		z-index: 3;
+	}
 
 	@media screen and (min-width: 768px) {
 		--KV-PTB: 160px;
+
+		&::after {
+			--Deco-W: var(--ComWave-W);
+			--Deco-H: var(--ComWave-H);
+			--KVWave-PosiB: calc((var(--ComWave-H) - 2px) * -1);
+			height: var(--Deco-H);
+		}
 		h1 {
 			width: 326px;
 		}
 	}
 	@media screen and (max-width: 767px) {
-		--KV-PTB: 90px;
+		--KV-PTB: calc(90 * var(--BaseUnit));
+		&::after {
+			--Deco-W: calc(var(--ComWave-W) * var(--BaseUnit));
+			--Deco-H: calc(var(--ComWave-H) * var(--BaseUnit));
+			--KVWave-PosiB: calc((var(--ComWave-H) - 1) * var(--BaseUnit) * -1);
+			height: var(--Deco-H);
+		}
 		h1 {
 			width: calc(195.95 * var(--BaseUnit));
 		}
@@ -442,7 +478,6 @@ header {
 $NewsPartnerContainerDecoPC-H: 14px;
 $NewsPartnerContainerDecoSP-H: 10;
 .Section-Catchphrase {
-	background: url(../images/Catch-BG.jpg) repeat-x center top / cover;
 	display: flex;
 	flex-flow: column nowrap;
 	justify-content: center;
@@ -452,47 +487,47 @@ $NewsPartnerContainerDecoSP-H: 10;
 	text-align: center;
 	z-index: 1;
 
-	&::before {
-		background: url(../images/Wave-WhiteBG.svg) repeat-x center top / auto 100%;
-		content: "";
-		animation: bgScrollX 35s linear infinite;
-		position: absolute;
-		top: -1px;
-		left: 0;
-		right: 0;
-		z-index: 2;
+	& > * {
+		text-shadow:0 0 5px #b1d0ed;
 	}
-	h2 {
-		font-weight: 800;
-	}
+
 	& > p {
-		font-weight: 800;
+		font-weight: 600;
 		line-height: 2;
 	}
 
 	@media screen and (min-width: 768px) {
 		--Catchphrase-PT: calc(120px + #{$NewsPartnerContainerDecoPC-H});
 		--Catchphrase-PB: var(--Catchphrase-PT);
+		background: url(../images/Catch-BG.jpg) no-repeat center top / cover;
 		&::before {
 			height: var(--ComWave-H);
 		}
 		h2 {
 			font-size: 32px;
+			font-weight: bold;
 		}
 		& > p {
 			font-size: 20px;
 			margin-top: 33px;
 		}
 	}
+	@media screen and (min-width: 1441px) {
+		background-position-y: 20%;
+		min-height: 35.04510756419153vw;
+	}
 	@media screen and (max-width: 767px) {
 		--Catchphrase-PTNum: 112;
 		--Catchphrase-PT: calc(var(--Catchphrase-PTNum) * var(--BaseUnit));
 		--Catchphrase-PB: calc((var(--Catchphrase-PTNum) + #{$NewsPartnerContainerDecoSP-H}) * var(--BaseUnit));
+		background: url(../images/Catch-BGSP.jpg) no-repeat center top;
+		background-size: calc(1390 * var(--BaseUnit)) auto;
 		&::before {
 			height: calc(var(--ComWave-H) * var(--BaseUnit));
 		}
 		h2 {
 			font-size: calc(24 * var(--BaseUnit));
+			font-weight: 800;
 		}
 		& > p {
 			font-size: calc(16 * var(--BaseUnit));
@@ -504,7 +539,8 @@ $NewsPartnerContainerDecoSP-H: 10;
 // ====== News ＋ PARTNER Container
 // =========================================================================
 .NewsPartnerContainer {
-	background: url(../images/Wave-BlueBG.svg) repeat-x center top / var(--NewsPartnerContainerBG-W) auto;
+	background: url(../images/Wave-BlueBG.svg) repeat-x center top;
+	background-size: var(--NewsPartnerContainerBG-W) auto;
 	animation: bgScrollX 35s linear infinite;
 	display: flex;
 	flex-flow: column nowrap;
@@ -516,15 +552,15 @@ $NewsPartnerContainerDecoSP-H: 10;
 	padding: var(--NewsPartnerContainer-PT) var(--ComContentPaddingLR) var(--NewsPartnerContainer-PB);
 
 	&::after {
-		background: url(../images/Wave-WhiteBG.svg) repeat-x center top / auto 100%;
+		background: url(../images/Wave-WhiteBGUp.svg) repeat-x center bottom;
+		background-size: var(--Deco-W) var(--Deco-H);
 		content: "";
-		animation: bgScrollXRe 35s linear infinite;
+		animation: bgScrollX 35s linear infinite;
 		position: absolute;
 		bottom: -1px;
 		left: 0;
 		right: 0;
 		z-index: 2;
-		transform: rotate(180deg);
 	}
 
 	@media screen and (min-width: 768px) {
@@ -534,6 +570,8 @@ $NewsPartnerContainerDecoSP-H: 10;
 		--NewsPartnerContainer-PB: 201px;
 		margin-top: calc(#{$NewsPartnerContainerDecoPC-H} * -1);
 		&::after {
+			--Deco-W: var(--ComWave-W);
+			--Deco-H: var(--ComWave-H);
 			height: var(--ComWave-H);
 		}
 	}
@@ -543,6 +581,8 @@ $NewsPartnerContainerDecoSP-H: 10;
 		--NewsPartnerContainer-PB: calc(162 * var(--BaseUnit));
 		--NewsPartnerContainerBG-W: calc(var(--BaseWaveBGSize) * var(--BaseUnit));
 		&::after {
+			--Deco-W: calc(var(--ComWave-W) * var(--BaseUnit));
+			--Deco-H: calc(var(--ComWave-H) * var(--BaseUnit));
 			height: calc(var(--ComWave-H) * var(--BaseUnit));
 		}
 	}
@@ -557,17 +597,22 @@ $NewsPartnerContainerDecoSP-H: 10;
 	align-items: center;
 	width: 100%;
 	position: relative;
+	overflow: visible;
 
 	.NewsListContainer {
-		justify-content: center;
+		display: flex;
+		flex-flow: row wrap;
+		justify-content: flex-start;
 		width: 100%;
 		max-width: 1228px;
+		gap: var(--NewsListContainer-gap);
 		
 		li {
 			display: flex;
 			flex-flow: column nowrap;
 			align-items: center;
 			transition: all 0.3s ease;
+			position: relative;
 			
 			@media (hover: hover) and (pointer: fine) {
 				&:hover {
@@ -582,7 +627,7 @@ $NewsPartnerContainerDecoSP-H: 10;
 				line-height: 1;
 			}
 			h3 {
-				font-weight: 800;
+				font-weight: bold;
 				text-align: left;
 				width: 100%;
 			}
@@ -590,11 +635,28 @@ $NewsPartnerContainerDecoSP-H: 10;
 
 		.NewsKV {
 			mask-image: url(../images/News-MaskBG.svg);
-			mask-size: 100% auto;
+			mask-size: 100% 100%;
+			mask-repeat: no-repeat;
+			mask-position: center;
 			-webkit-mask-image: url(../images/News-MaskBG.svg);
-			-webkit-mask-size: 100% auto;
+			-webkit-mask-size: 100% 100%;
+			-webkit-mask-repeat: no-repeat;
+			-webkit-mask-position: center;
 			position: relative;
 			padding: 2px;
+			width: 100%;
+			
+			img {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+				position: absolute;
+				--posi: 0px;
+				top: var(--posi);
+				left: var(--posi);
+				right: var(--posi);
+				bottom: var(--posi);
+			}
 
 			&::before {
 				background: url(../images/News-MaskFrame.svg) no-repeat center center / 100% 100%;
@@ -606,6 +668,13 @@ $NewsPartnerContainerDecoSP-H: 10;
 				right: var(--posi);
 				bottom: var(--posi);
 				z-index: 2;
+				width: 100%;
+			}
+			&::after {
+				content: "";
+				width: 100%;
+				padding-top: 75%;
+				display: block;
 			}
 		}
 		.js-ModalParts {
@@ -615,22 +684,31 @@ $NewsPartnerContainerDecoSP-H: 10;
 
 	@media screen and (min-width: 768px) {
 		.NewsListContainer {
-			display: grid;
-			grid-auto-flow: column;
-			grid-template-columns: repeat(5, auto);
-			gap: 0 32px;
+			--NewsListContainer-gap: 32px;
+			// li が4個以下（＝5個目が存在しない）のときだけ中央寄せ
+			&:not(:has(li:nth-child(5))) {
+				justify-content: center;
+			}
 
 			li {
 				font-size: 16px;
-				&:nth-of-type(even) {
+				width: calc((100% - var(--NewsListContainer-gap) * 4) / 5);
+
+				// 5列固定で2列目・4列目に常にmargin-topを付ける（行が変わっても列位置は同じにする）
+				&:nth-child(5n + 2),
+				&:nth-child(5n + 4) {
 					margin-top: 32px;
 				}
+
 				time {
 					margin-top: 16px;
 				}
 				h3 {
 					margin-top: 8px;
 				}
+			}
+			&:not(.is-expanded) li:nth-child(n + 6) {
+				display: none;
 			}
 		}
 		.ComBtnLayContainer {
@@ -639,23 +717,19 @@ $NewsPartnerContainerDecoSP-H: 10;
 	}
 	@media screen and (max-width: 767px) {
 		.NewsListContainer {
-			display: flex;
-			flex-flow: row wrap;
+			--NewsListContainerLI-ML: 16;
+			--NewsListContainerLI-MT: 24;
+			--NewsListContainer-gap: calc(var(--NewsListContainerLI-MT) * var(--BaseUnit)) calc(var(--NewsListContainerLI-ML) * var(--BaseUnit));
+			&:has(li:only-of-type) {
+				justify-content: center;
+			}
 
 			li {
-				--NewsListContainerLI-ML: 16;
-				--NewsListContainerLI-MT: 24;
 				font-size: calc(14 * var(--BaseUnit));
 				width: calc((100% - var(--NewsListContainerLI-ML) * var(--BaseUnit)) / 2);
-				&:last-of-type {
-					display: none;
-				}
+
 				&:nth-of-type(even) {
-					margin-left: calc(var(--NewsListContainerLI-ML) * var(--BaseUnit));
 					padding-top: calc(var(--NewsListContainerLI-MT) * var(--BaseUnit));
-				}
-				&:nth-of-type(n + 3) {
-					margin-top: calc(var(--NewsListContainerLI-MT) * var(--BaseUnit));
 				}
 
 				time {
@@ -664,6 +738,9 @@ $NewsPartnerContainerDecoSP-H: 10;
 				h3 {
 					margin-top: calc(6 * var(--BaseUnit));
 				}
+			}
+			&:not(.is-expanded) li:nth-child(n + 5) {
+				display: none;
 			}
 		}
 
@@ -684,9 +761,9 @@ $NewsPartnerContainerDecoSP-H: 10;
 		display: flex;
 		flex-flow: column nowrap;
 		max-height: 100%;
-		max-width: 1043px;
-		height: auto;
+		max-width: 860px;
 		width: 100%;
+		height: auto;
 		padding: var(--NewsModalContent-PTB) var(--NewsModalContent-PLR);
 		overflow: hidden;
 		position: relative;
@@ -713,13 +790,26 @@ $NewsPartnerContainerDecoSP-H: 10;
 		.NewsModalHeader {
 			.NewsModalKV {
 				width: 100%;
+				position: relative;
+				overflow: hidden;
+
+				&::before {
+					content: "";
+					display: block;
+					padding-top: 56.25%; // 16:9 (9 / 16)
+				}
 				img {
+					position: absolute;
+					top: 0;
+					left: 0;
 					width: 100%;
+					height: 100%;
+					object-fit: cover;
 				}
 			}
 			h2 {
 				color: var(--BaseRed);
-				font-weight: 800;
+				font-weight: bold;
 			}
 			time {
 				color: var(--BaseRed);
@@ -755,10 +845,10 @@ $NewsPartnerContainerDecoSP-H: 10;
 			}
 			.comScrollbar:not(.is-x) {
 				--comScrollbar-PosiR: -10px;
-				--comScrollbar-BG: #fff;
+				--comScrollbar-BG: #a5a5a5;
 			}
 			.comScrollbar-Thumb {
-				// --comScrollbarThumb-BG: var(--BaseRed);
+				--comScrollbarThumb-BG: var(--BaseRed);
 			}
 		}
 	}
@@ -768,8 +858,9 @@ $NewsPartnerContainerDecoSP-H: 10;
 		.NewsModalContent {
 			--NewsModalContent-PTB: 56px;
 			--NewsModalContent-PLR: 72px;
+			
 			.NewsModalArticle {
-				margin-bottom: 48px;
+				margin-bottom: 32px;
 			}
 			.NewsModalHeader {
 				margin-bottom: 48px;
@@ -780,14 +871,14 @@ $NewsPartnerContainerDecoSP-H: 10;
 					font-size: 16px;
 				}
 				h2 {
-					font-size: 32px;
+					font-size: 24px;
 					margin-top: 4px;
 				}
 			}
 
 			.NewsModalMain {
 				& > p {
-					font-size: 20px;
+					font-size: 16px;
 				}
 			}
 			.ModalLinks {
@@ -804,6 +895,7 @@ $NewsPartnerContainerDecoSP-H: 10;
 		.NewsModalContent {
 			--NewsModalContent-PTB: 32px;
 			--NewsModalContent-PLR: 24px;
+			
 			.NewsModalArticle {
 				margin-bottom: calc(32 * var(--BaseUnit));
 			}
@@ -843,6 +935,7 @@ $NewsPartnerContainerDecoSP-H: 10;
 	display: flex;
 	flex-flow: column nowrap;
 	align-items: center;
+	justify-content: center;
 	max-width: 772px;
 	width: 100%;
 	position: relative;
@@ -850,7 +943,6 @@ $NewsPartnerContainerDecoSP-H: 10;
 	.PartnerListContainer {
 		display: flex;
 		align-items: center;
-		justify-content: center;
 		width: 100%;
 		li {
 			display: flex;
@@ -881,13 +973,18 @@ $NewsPartnerContainerDecoSP-H: 10;
 		margin-top: 120px;
 		padding: 64px;
 		.PartnerListContainer {
-			flex-flow: row nowrap;
+			--PartnerListContainerLi-MaxW: 240px;
+			--PartnerListContainerLi-Gap: 36px;
+			flex-flow: row wrap;
+			justify-content: flex-start;
+			max-width: calc(var(--PartnerListContainerLi-MaxW) * 2 + var(--PartnerListContainerLi-Gap));
+			gap: var(--PartnerListContainerLi-Gap);
+			&:has(li:only-child) {
+				justify-content: center;
+			}
 			li {
-				max-width: 240px;
-
-				&:nth-of-type(even) {
-					margin-left: 36px;
-				}
+				max-width: var(--PartnerListContainerLi-MaxW);
+				width: calc((100% - var(--PartnerListContainerLi-Gap)) / 2);
 			}
 		}
 	}
@@ -897,6 +994,7 @@ $NewsPartnerContainerDecoSP-H: 10;
 		padding: calc(40 * var(--BaseUnit));
 		.PartnerListContainer {
 			flex-flow: column nowrap;
+			justify-content: center;
 			li {
 				max-width: calc(200 * var(--BaseUnit));
 
@@ -938,7 +1036,7 @@ $NewsPartnerContainerDecoSP-H: 10;
 			overflow: hidden;
 
 			img {
-				width: 100%;
+				width: auto;
 				height: 100%;
 				object-fit: cover;
 				border: var(--marquee-item-Border) solid #fff;
@@ -1000,7 +1098,8 @@ $NewsPartnerContainerDecoSP-H: 10;
 // ====== Footer
 // =========================================================================
 footer {
-	background: url(../images/Wave-FooterBG.svg) repeat-x center top / var(--FooterBG-W) auto;
+	background: url(../images/Wave-FooterBG.svg) repeat-x center top;
+	background-size: var(--FooterBG-W) auto;
 	animation: bgScrollX 35s linear infinite;
 	color: #fff;
 	display: flex;
@@ -1019,8 +1118,13 @@ footer {
 		text-align: center;
 
 		& > p {
-			font-weight: 800;
+			font-weight: bold;
 			font-size: 24px;
+			span {
+				display: inline-block;
+				text-align: center;
+				width: 100%;
+			}
 		}
 
 		.ComBtnLay {
@@ -1035,8 +1139,7 @@ footer {
 		justify-content: center;
 		align-items: center;
 		line-height: 1;
-		font-family: $font-Interfamily;
-		font-weight: 300;
+		font-weight: 400;
 	}
 
 	@media screen and (min-width: 768px) {
@@ -1045,6 +1148,10 @@ footer {
 		.ContactContainer {
 			& > p {
 				font-size: 24px;
+				span {
+					font-size: 16px;
+					margin-top: 16px;
+				}
 			}
 
 			.ComBtnLay {
@@ -1062,6 +1169,10 @@ footer {
 		.ContactContainer {
 			& > p {
 				font-size: calc(16 * var(--BaseUnit));
+				span {
+					font-size: calc(12 * var(--BaseUnit));
+					margin-top: calc(6 * var(--BaseUnit));
+				}
 			}
 
 			.ComBtnLay {

@@ -161,6 +161,29 @@ document.querySelectorAll('.js-marquee').forEach((el_Marquee) => {
 	});
 });
 
+// ======== NEWSリストの「and more」展開
+document.querySelectorAll('.js-NewsMore').forEach(el_More => {
+	const el_List = el_More.closest('section').querySelector('.NewsListContainer');
+	const el_MoreWrap = el_More.closest('.js-NewsMoreWrap');
+	if (!el_List || !el_MoreWrap) return;
+
+	function updateNewsMoreVisibility() {
+		const limit = window.innerWidth <= 767 ? 4 : 5;
+		const isExpanded = el_List.classList.contains('is-expanded');
+		const hasMore = el_List.children.length > limit;
+		el_MoreWrap.style.display = (isExpanded || !hasMore) ? 'none' : '';
+	}
+
+	el_More.addEventListener('click', (e) => {
+		e.preventDefault();
+		el_List.classList.add('is-expanded');
+		updateNewsMoreVisibility();
+	});
+
+	updateNewsMoreVisibility();
+	window.addEventListener('resize', updateNewsMoreVisibility);
+});
+
 
 // ======== NEWS モーダル
 const el_NewsModalWrap = document.querySelector('.NewsModalWrap');
